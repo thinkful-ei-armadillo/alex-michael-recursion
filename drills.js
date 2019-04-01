@@ -64,4 +64,17 @@ function splitter(str, delim){
   return result + splitter(str.slice(delimIdx + 1), delim);
 }
 
-console.log(splitter('02/20/2020', '/'));
+function fib(n, sum = 1, prev = 0) {
+  if (n === 0) {
+    return '.';
+  }
+  const newSum = sum + prev;
+  const newPrev = sum;
+  //quick hack to prevent commas before first num
+  if (prev === 0) {
+    return `${sum}` + fib(n-1, newSum, newPrev);
+  }
+  return `, ${sum}` + fib(n-1, newSum, newPrev);
+}
+
+console.log(fib(7));
