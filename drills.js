@@ -84,4 +84,20 @@ function factorial(num){
   return num * factorial(num - 1);
 }
 
-console.log(factorial(5));
+function anagram(word){
+  let results = [];
+  if(word.length <= 1){
+    return [word];
+  }
+  const str = word.split('');
+  str.forEach((letter, idx) => {
+    let charLeft = [...str.slice(0, idx), ...str.slice(idx + 1)].join('');
+    const permutations = anagram(charLeft);
+    permutations.forEach(permutation => {
+      results.push(letter + permutation);
+    });
+  });
+  return results;
+}
+
+console.log(anagram('word'));
