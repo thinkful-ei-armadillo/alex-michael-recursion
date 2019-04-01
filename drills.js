@@ -10,4 +10,24 @@ function countingSheep(num){
   countingSheep(num - 1);
 }
 
-countingSheep(5);
+function powerCalculator(n, exp) {
+  //exp is how many times we 'recurse'
+
+  //if less than 0 return error
+  if (exp < 0) {
+    return 'exponent should be >= 0';
+  }
+  //anything to 0 power = 1
+  if (exp === 0) {
+    return 1;
+  }
+  //base case, should stop at 1
+  if (exp === 1) {
+    return n;
+  }
+
+  const e = n * powerCalculator(n, exp-1);
+  return e;
+}
+
+console.log(powerCalculator(10, -4));
