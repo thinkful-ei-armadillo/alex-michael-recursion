@@ -30,4 +30,14 @@ function powerCalculator(n, exp) {
   return e;
 }
 
-console.log(powerCalculator(10, -4));
+function strReverse(str){
+  // input is string
+  // output is reversed string
+
+  if(str === ''){
+    return '';
+  }
+  let last = str[str.length - 1];
+  let result = last + strReverse(str.slice(0, str.length - 1));
+  return result;
+}
