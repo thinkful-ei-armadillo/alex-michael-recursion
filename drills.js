@@ -100,4 +100,9 @@ function anagram(word){
   return results;
 }
 
-console.log(anagram('word'));
+function binary(num){
+  if(num < 1){
+    return '';
+  }
+  return binary(num / 2) + Math.floor(num % 2);
+}
