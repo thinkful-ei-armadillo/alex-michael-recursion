@@ -41,3 +41,12 @@ function strReverse(str){
   let result = last + strReverse(str.slice(0, str.length - 1));
   return result;
 }
+
+function triangle(n) {
+  if (n === 1) {
+    return 1;
+  }
+  return n + triangle(n-1);
+}
+
+console.log(triangle(9));
