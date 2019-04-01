@@ -49,4 +49,19 @@ function triangle(n) {
   return n + triangle(n-1);
 }
 
-console.log(triangle(9));
+function splitter(str, delim){
+  // input is a string `02/20/2020`
+  // output is string without delimiters `02202020`
+
+  if(str.length === 0){
+    return '';
+  }
+  let delimIdx = str.indexOf(delim);
+  if(delimIdx === -1){
+    return str;
+  }
+  let result = str.slice(0, (delimIdx));
+  return result + splitter(str.slice(delimIdx + 1), delim);
+}
+
+console.log(splitter('02/20/2020', '/'));
