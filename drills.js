@@ -106,3 +106,98 @@ function binary(num){
   }
   return binary(num / 2) + Math.floor(num % 2);
 }
+
+function checkValidMove(cell) {
+  return !(cell === 'v' || cell === '*' || !cell);
+}
+
+function getPossibleMoves(maze, pos) {
+  //get all valid moves:
+  let moves = {
+    'R': [pos[0], pos[1] + 1],
+    'L': [pos[0], pos[1] - 1],
+  };
+  if (pos[0] !== 0) {
+    moves['U'] = [pos[0] - 1, pos[1]];
+  }
+  if (pos[0] !== maze.length - 1) {
+    moves['D'] = [pos[0] + 1, pos[1]];
+  }
+
+  for (let key of Object.keys(moves)) {
+    let posArr = moves[key];
+    let cell = maze[ posArr[0] ][ posArr[1] ];
+    if (!checkValidMove(cell)) {
+      delete moves[key];
+    }
+  }
+  return moves;
+}
+                                //y , x
+function solveMaze(maze, pos = [0, 0]) {
+  if ( maze[pos[0]][pos[1]] === 'e' ) {
+    return 'e';
+  }
+  maze[pos[0]][pos[1]] = 'v';
+  const moves = getPossibleMoves(maze, pos);
+
+  const numMoves = Object.keys(moves).length;
+  if (numMoves === 0) {
+    return;
+  }
+  for (let key of Object.keys(moves)) {
+    const nextPos = moves[key];
+    const solve = solveMaze(maze, nextPos);
+    if (solve === 'e') {
+      return key;
+    }
+    if (solve) {
+      return key + solve;
+    }
+  }
+}
+
+function copyMazeArray(maze) {
+  let newMaze =[];
+  maze.forEach(subArray => {
+    newMaze.push([...subArray]);
+  });
+  return newMaze;
+}
+
+function solveAllMaze(maze, pos = [0, 0], prevMoves = '') {
+  maze = copyMazeArray(maze);
+  if ( maze[pos[0]][pos[1]] === 'e' ) {
+    return 'e';
+  }
+  maze[pos[0]][pos[1]] = 'v';
+  const moves = getPossibleMoves(maze, pos);
+
+  const numMoves = Object.keys(moves).length;
+  if (numMoves === 0) {
+    return;
+  }
+  for (let key of Object.keys(moves)) {
+    const nextPos = moves[key];
+    prevMoves = prevMoves + key;
+    const solve = solveAllMaze(maze, nextPos, prevMoves);
+    if (solve === 'e') {
+      console.log('Path to the exit:', prevMoves);
+    }
+    if (solve && solve !== 'e') {
+      return key + solve;
+    }
+    //hacky, but removes the key if the route didn't work.
+    prevMoves = prevMoves.slice(0, prevMoves.length - 1);
+  }
+}
+
+let maze = [
+  [' ', ' ', ' ', '*', ' ', ' ', ' '],
+  ['*', '*', ' ', '*', ' ', '*', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', '*', '*', '*', '*', '*', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', 'e']
+];
+
+solveAllMaze(maze);
